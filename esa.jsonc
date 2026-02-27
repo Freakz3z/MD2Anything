@@ -1,0 +1,83 @@
+{
+  // ESA 配置文件
+  // 文档: https://help.aliyun.com/document_detail/EdgeRoutine.html
+
+  "name": "md2everything",
+  "version": "1.0.0",
+
+  // 构建配置
+  "build": {
+    // 构建命令
+    "command": "npm run build",
+    // 输出目录
+    "output": "dist",
+    // Node.js 版本
+    "nodeVersion": "18"
+  },
+
+  // 路由配置
+  "routes": [
+    {
+      // 静态资源 - 缓存 1 年
+      "path": "/assets/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      // 图片资源 - 缓存 7 天
+      "path": "*.jpg",
+      "headers": {
+        "Cache-Control": "public, max-age=604800"
+      }
+    },
+    {
+      // 图片资源 - 缓存 7 天
+      "path": "*.png",
+      "headers": {
+        "Cache-Control": "public, max-age=604800"
+      }
+    },
+    {
+      // 图片资源 - 缓存 7 天
+      "path": "*.svg",
+      "headers": {
+        "Cache-Control": "public, max-age=604800"
+      }
+    },
+    {
+      // 字体文件 - 缓存 1 年
+      "path": "*.woff",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      // 字体文件 - 缓存 1 年
+      "path": "*.woff2",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      // SPA 路由 - 所有其他路由返回 index.html
+      "path": "/*",
+      "serve": "/index.html",
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
+    }
+  ],
+
+  // 自定义响应头
+  "headers": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "1; mode=block"
+  },
+
+  // 环境变量（如需要，在 ESA 控制台配置）
+  // "env": {
+  //   "API_URL": "your-api-url"
+  // }
+}
