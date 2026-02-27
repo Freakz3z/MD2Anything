@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Input, Button, Space, Tooltip } from 'antd';
+import React, { useCallback, useState, useRef } from 'react';
+import { Input, Button, Space, Tooltip, message } from 'antd';
 import {
   BoldOutlined,
   ItalicOutlined,
@@ -12,6 +12,7 @@ import {
   FontSizeOutlined,
   MinusOutlined,
   TableOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
 
 const { TextArea } = Input;
@@ -42,6 +43,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   onChange,
   placeholder = '在此输入 Markdown 内容...',
 }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const dragCounterRef = useRef(0);
+
   // 处理工具栏按钮点击
   const handleToolbarClick = useCallback(
     (prefix: string, suffix: string) => {
@@ -99,8 +103,78 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     [value, onChange]
   );
 
+  // 处理拖拽进入
+  const handleDragEnter = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current++;
+    if (e.dataTransfer.types.includes('Files')) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  // 处理拖拽离开
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current--;
+    if (dragCounterRef.current === 0) {
+      setIsDragging(false);
+    }
+  }, []);
+
+  // 处理拖拽悬停
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  // 处理文件放置
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragging(false);
+      dragCounterRef.current = 0;
+
+      const files = e.dataTransfer.files;
+      if (files.length === 0) return;
+
+      const file = files[0];
+      const fileName = file.name.toLowerCase();
+
+      // 检查是否是 .md 文件
+      if (!fileName.endsWith('.md') && !fileName.endsWith('.markdown') && !fileName.endsWith('.txt')) {
+        message.warning('请拖入 .md 或 .txt 文件');
+        return;
+      }
+
+      // 读取文件内容
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const content = event.target?.result as string;
+        if (content) {
+          onChange(content);
+          message.success(`已加载文件: ${file.name}`);
+        }
+      };
+      reader.onerror = () => {
+        message.error('文件读取失败');
+      };
+      reader.readAsText(file);
+    },
+    [onChange]
+  );
+
   return (
-    <div className="markdown-editor" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <div
+      className="markdown-editor"
+      style={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       {/* 工具栏 */}
       <div
         className="toolbar"
@@ -146,6 +220,34 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           background: 'transparent',
         }}
       />
+
+      {/* 拖拽遮罩层 */}
+      {isDragging && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(22, 119, 255, 0.1)',
+            border: '2px dashed #1677ff',
+            borderRadius: 16,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 12,
+            zIndex: 10,
+            pointerEvents: 'none',
+          }}
+        >
+          <FileTextOutlined style={{ fontSize: 48, color: '#1677ff' }} />
+          <span style={{ fontSize: 16, color: '#1677ff', fontWeight: 500 }}>
+            释放以加载 Markdown 文件
+          </span>
+        </div>
+      )}
     </div>
   );
 };

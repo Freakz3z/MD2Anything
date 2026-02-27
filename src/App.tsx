@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import {
   Layout,
   Button,
@@ -9,6 +9,7 @@ import {
   Space,
   ConfigProvider,
   Segmented,
+  Tooltip,
 } from 'antd';
 import {
   HistoryOutlined,
@@ -25,6 +26,7 @@ import {
   MailOutlined,
   BookOutlined,
   GithubOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons';
 import zhCN from 'antd/locale/zh_CN';
 
@@ -38,6 +40,7 @@ import { useStore, AUTO_SAVE_INTERVAL } from './store/useStore';
 import { exportContent, xiaohongshuSizeOptions, xiaohongshuSplitOptions } from './utils/export';
 import { getTemplateById, getTemplatesByFormat } from './templates';
 import { getSampleByFormat } from './utils/sampleContent';
+import { getTextStats } from './utils/stats';
 import type { OutputFormat, XiaohongshuSize, XiaohongshuSplitMode } from './types';
 
 import './App.css';
@@ -96,6 +99,9 @@ const App: React.FC = () => {
 
   // 当前模板
   const currentTemplate = getTemplateById(selectedTemplateId);
+
+  // 文本统计
+  const textStats = useMemo(() => getTextStats(markdownContent), [markdownContent]);
 
   // 当格式改变时，选择该格式的第一个模板
   useEffect(() => {
@@ -593,7 +599,7 @@ const App: React.FC = () => {
             borderTop: '1px solid #e8e8e8',
           }}
         >
-          {/* 左侧：历史记录按钮 + 提示信息 */}
+          {/* 左侧：历史记录按钮 + 统计信息 */}
           <Space size={16}>
             <Button
               type="text"
@@ -603,8 +609,14 @@ const App: React.FC = () => {
             >
               历史 ({history.length}/10)
             </Button>
+            <Tooltip title={`字符: ${textStats.chars} (含空格) / ${textStats.charsNoSpaces} (不含空格)\n行数: ${textStats.lines}\n段落数: ${textStats.paragraphs}`}>
+              <Text type="secondary" style={{ fontSize: 13, cursor: 'pointer' }}>
+                {textStats.words} 字 · {textStats.lines} 行
+              </Text>
+            </Tooltip>
             <Text type="secondary" style={{ fontSize: 13 }}>
-              每1分钟自动保存
+              <ClockCircleOutlined style={{ marginRight: 4 }} />
+              约 {textStats.readTime} 分钟
             </Text>
           </Space>
 
