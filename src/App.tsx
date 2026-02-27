@@ -24,6 +24,7 @@ import {
   AppstoreOutlined,
   MailOutlined,
   BookOutlined,
+  GithubOutlined,
 } from '@ant-design/icons';
 import zhCN from 'antd/locale/zh_CN';
 
@@ -607,10 +608,19 @@ const App: React.FC = () => {
             </Text>
           </Space>
 
-          {/* 右侧：版权信息 */}
-          <Text type="secondary" style={{ fontSize: 12 }}>
-            MD2Anything © {new Date().getFullYear()}
-          </Text>
+          {/* 右侧：版权信息 + GitHub */}
+          <Space size={16}>
+            <Text type="secondary" style={{ fontSize: 12 }}>
+              MD2Anything © {new Date().getFullYear()}
+            </Text>
+            <Button
+              type="text"
+              icon={<GithubOutlined />}
+              href="https://github.com/Freakz3z/MD2Anything"
+              target="_blank"
+              style={{ fontSize: 16, color: '#666' }}
+            />
+          </Space>
         </Footer>
 
         {/* 历史记录弹窗 */}
