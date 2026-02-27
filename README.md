@@ -53,6 +53,18 @@
 - **边距** - 0px ~ 96px 可调
 - **背景颜色** - 16 种预设颜色 + 自定义
 
+### 📝 增强编辑
+
+- **拖拽上传** - 直接拖入 `.md` / `.txt` 文件
+- **字数统计** - 实时显示字数、行数、预估阅读时间
+- **工具栏** - 快速插入标题、粗体、斜体、链接、图片、表格等
+
+### 🔧 增强渲染
+
+- **代码高亮** - Prism.js 语法高亮，支持 20+ 种语言
+- **数学公式** - KaTeX 支持，行内 `$...$` 和块级 `$$...$$`
+- **Mermaid 图表** - 流程图、时序图、甘特图、饼图等
+
 ### 🔧 其他功能
 
 - 📝 实时预览 - 编辑器与预览区同步滚动
@@ -71,8 +83,8 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/Freakz3z/Md2Everything.git
-cd Md2Everything
+git clone https://github.com/Freakz3z/MD2Anything.git
+cd MD2Anything
 
 # 安装依赖
 npm install
@@ -86,6 +98,7 @@ npm run build
 # 启动 API 服务
 npm run server
 ```
+
 ### 快速开发模板
 
 如果你使用 Claude Code，可以使用内置 Skill 快速创建模板：
@@ -97,6 +110,50 @@ npm run server
 这个 Skill 会通过交互式问答自动生成模板代码。
 
 详细指南请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+---
+
+## 📖 使用指南
+
+### 代码语法高亮
+
+支持 20+ 种编程语言，使用标准 Markdown 代码块语法：
+
+````markdown
+```javascript
+const greeting = "Hello, World!";
+console.log(greeting);
+```
+````
+
+支持的语言：JavaScript, TypeScript, Python, Java, C, C++, C#, Go, Rust, Bash, JSON, YAML, SQL, Docker, Nginx 等。
+
+### 数学公式
+
+使用 KaTeX 渲染数学公式：
+
+**行内公式**：`$E = mc^2$` → $E = mc^2$
+
+**块级公式**：
+```
+$$
+\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n
+$$
+```
+
+### Mermaid 图表
+
+使用 Mermaid 语法绘制图表：
+
+````markdown
+```mermaid
+graph LR
+    A[开始] --> B[处理]
+    B --> C[结束]
+```
+````
+
+支持：流程图、时序图、甘特图、饼图、类图、状态图等。
 
 ---
 
@@ -162,8 +219,10 @@ curl -X POST http://localhost:3001/api/convert/html \
 - **构建工具**: Vite 7
 - **UI 组件**: Ant Design 6
 - **状态管理**: Zustand
-- **Markdown 解析**: marked + react-markdown
-- **代码高亮**: highlight.js + react-syntax-highlighter
+- **Markdown 解析**: marked
+- **代码高亮**: Prism.js
+- **数学公式**: KaTeX
+- **图表渲染**: Mermaid
 - **导出功能**: html2canvas + jsPDF
 - **API 服务**: Express.js
 
@@ -172,11 +231,14 @@ curl -X POST http://localhost:3001/api/convert/html \
 ## 📁 项目结构
 
 ```
-Md2Everything/
+MD2Anything/
 ├── src/                    # 前端源码
 │   ├── components/         # React 组件
 │   ├── templates/          # 模板配置
 │   ├── utils/              # 工具函数
+│   │   ├── enhancedMarkdown.ts  # 增强 Markdown 解析
+│   │   ├── stats.ts             # 字数统计
+│   │   └── export/              # 导出功能
 │   ├── store/              # 状态管理
 │   └── types/              # TypeScript 类型
 ├── server/                 # API 服务
@@ -203,4 +265,3 @@ Md2Everything/
 ## 📄 许可证
 
 本项目基于 [MIT](LICENSE) 许可证开源。
-

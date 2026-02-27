@@ -6,6 +6,11 @@ import {
   ApiOutlined,
   SettingOutlined,
   FileTextOutlined,
+  HighlightOutlined,
+  FunctionOutlined,
+  DeploymentUnitOutlined,
+  UploadOutlined,
+  BarChartOutlined,
 } from '@ant-design/icons';
 
 const { Title, Paragraph, Text } = Typography;
@@ -142,6 +147,93 @@ const DocsModal: React.FC<DocsModalProps> = ({ open, onClose }) => {
     },
     {
       key: '3',
+      label: <span><HighlightOutlined style={{ marginRight: 8 }} />增强功能</span>,
+      children: (
+        <div>
+          <Title level={5}><UploadOutlined style={{ marginRight: 8 }} />拖拽上传</Title>
+          <Paragraph>
+            直接将 <Text code>.md</Text> 或 <Text code>.txt</Text> 文件拖入编辑器区域，即可自动加载文件内容。
+          </Paragraph>
+
+          <Divider />
+
+          <Title level={5}><BarChartOutlined style={{ marginRight: 8 }} />字数统计</Title>
+          <Paragraph>
+            底部状态栏实时显示：
+          </Paragraph>
+          <List
+            size="small"
+            dataSource={[
+              '字数（中英文混合计算）',
+              '行数',
+              '预估阅读时间（按 300 字/分钟计算）',
+            ]}
+            renderItem={(item) => (
+              <List.Item style={{ padding: '2px 0' }}><CheckCircleOutlined style={{ color: '#52c41a', marginRight: 8 }} />{item}</List.Item>
+            )}
+          />
+
+          <Divider />
+
+          <Title level={5}><HighlightOutlined style={{ marginRight: 8 }} />代码高亮</Title>
+          <Paragraph>
+            支持 20+ 种编程语言的语法高亮，使用标准代码块语法：
+          </Paragraph>
+          <pre style={{
+            background: '#f5f5f5',
+            padding: 12,
+            borderRadius: 8,
+            fontSize: 12,
+            overflow: 'auto'
+          }}>
+            {"```javascript\nconst greeting = \"Hello\";\nconsole.log(greeting);\n```"}
+          </pre>
+          <Paragraph type="secondary" style={{ fontSize: 12 }}>
+            支持：JavaScript, TypeScript, Python, Java, C/C++, Go, Rust, Bash, JSON, YAML, SQL, Docker 等
+          </Paragraph>
+
+          <Divider />
+
+          <Title level={5}><FunctionOutlined style={{ marginRight: 8 }} />数学公式</Title>
+          <Paragraph>
+            使用 KaTeX 渲染数学公式：
+          </Paragraph>
+          <List
+            size="small"
+            dataSource={[
+              { type: '行内公式', example: '$E = mc^2$' },
+              { type: '块级公式', example: '$$\\sum_{i=1}^{n} x_i$$' },
+            ]}
+            renderItem={(item) => (
+              <List.Item style={{ padding: '2px 0' }}>
+                <Text code>{item.type}</Text>: <Text>{item.example}</Text>
+              </List.Item>
+            )}
+          />
+
+          <Divider />
+
+          <Title level={5}><DeploymentUnitOutlined style={{ marginRight: 8 }} />Mermaid 图表</Title>
+          <Paragraph>
+            支持 Mermaid 语法绘制流程图、时序图等：
+          </Paragraph>
+          <pre style={{
+            background: '#f5f5f5',
+            padding: 12,
+            borderRadius: 8,
+            fontSize: 12,
+            overflow: 'auto'
+          }}>
+            {"```mermaid\ngraph LR\n    A[开始] --> B[处理]\n    B --> C[结束]\n```"}
+          </pre>
+          <Paragraph type="secondary" style={{ fontSize: 12 }}>
+            支持：流程图、时序图、甘特图、饼图、类图、状态图等
+          </Paragraph>
+        </div>
+      ),
+    },
+    {
+      key: '4',
       label: <span><CodeOutlined style={{ marginRight: 8 }} />技术栈</span>,
       children: (
         <div>
@@ -152,8 +244,10 @@ const DocsModal: React.FC<DocsModalProps> = ({ open, onClose }) => {
               { label: '构建工具', value: 'Vite 7' },
               { label: 'UI 组件', value: 'Ant Design 6' },
               { label: '状态管理', value: 'Zustand' },
-              { label: 'Markdown 解析', value: 'marked + react-markdown' },
-              { label: '代码高亮', value: 'highlight.js + react-syntax-highlighter' },
+              { label: 'Markdown 解析', value: 'marked' },
+              { label: '代码高亮', value: 'Prism.js (20+ 语言)' },
+              { label: '数学公式', value: 'KaTeX' },
+              { label: '图表渲染', value: 'Mermaid' },
               { label: '图片导出', value: 'html2canvas' },
               { label: 'PDF 导出', value: 'jsPDF + html2canvas' },
               { label: 'API 服务', value: 'Express.js' },
@@ -168,7 +262,7 @@ const DocsModal: React.FC<DocsModalProps> = ({ open, onClose }) => {
       ),
     },
     {
-      key: '4',
+      key: '5',
       label: <span><ApiOutlined style={{ marginRight: 8 }} />API 文档</span>,
       children: (
         <div>

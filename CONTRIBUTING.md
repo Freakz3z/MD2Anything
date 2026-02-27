@@ -45,8 +45,8 @@ src/
 ├── components/           # React 组件
 │   ├── DocsModal.tsx     # 文档弹窗
 │   ├── HistoryPanel.tsx  # 历史记录面板
-│   ├── MarkdownEditor.tsx# Markdown 编辑器
-│   ├── Preview.tsx       # 预览组件
+│   ├── MarkdownEditor.tsx# Markdown 编辑器（支持拖拽上传）
+│   ├── Preview.tsx       # 预览组件（增强 Markdown 渲染）
 │   ├── SettingsPanel.tsx # 设置面板
 │   └── TemplateSelector.tsx # 模板选择器
 ├── templates/            # 模板配置 ⭐
@@ -57,13 +57,18 @@ src/
 │   ├── resume.ts         # 简历模板
 │   └── general.ts        # 通用模板
 ├── utils/
-│   ├── export/           # 导出功能
-│   │   ├── html.ts       # HTML 导出
-│   │   ├── wechat.ts     # 微信导出
-│   │   ├── email.ts      # 邮件导出
-│   │   ├── image.ts      # 图片导出
-│   │   └── pdf.ts        # PDF 导出
-│   └── sampleContent.ts  # 示例内容
+│   ├── enhancedMarkdown.ts # 增强 Markdown 解析 ⭐
+│   │                     # • Prism.js 代码高亮
+│   │                     # • KaTeX 数学公式
+│   │                     # • Mermaid 图表
+│   ├── stats.ts          # 字数统计
+│   ├── sampleContent.ts  # 示例内容
+│   └── export/           # 导出功能
+│       ├── html.ts       # HTML 导出
+│       ├── wechat.ts     # 微信导出
+│       ├── email.ts      # 邮件导出
+│       ├── image.ts      # 图片导出
+│       └── pdf.ts        # PDF 导出
 ├── store/
 │   └── useStore.ts       # Zustand 状态管理
 ├── types/
