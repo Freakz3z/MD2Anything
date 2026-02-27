@@ -1,0 +1,394 @@
+/* 全局样式 */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+}
+
+/* Markdown编辑器样式 */
+.markdown-editor {
+  height: 100%;
+}
+
+.markdown-editor .toolbar {
+  background: transparent !important;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 10px 14px !important;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.markdown-editor .ant-input {
+  border: none !important;
+  border-radius: 0 !important;
+  resize: none !important;
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+}
+
+.markdown-editor .ant-input:focus {
+  box-shadow: none !important;
+}
+
+/* 预览区域样式 */
+.preview-container {
+  min-height: 100%;
+  padding: 24px 28px;
+}
+
+.preview-content {
+  line-height: 1.8;
+  color: #333;
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 15px;
+}
+
+.preview-content h1,
+.preview-content h2,
+.preview-content h3,
+.preview-content h4,
+.preview-content h5,
+.preview-content h6 {
+  margin-top: 24px;
+  margin-bottom: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.preview-content h1:first-child,
+.preview-content h2:first-child,
+.preview-content h3:first-child {
+  margin-top: 0;
+}
+
+/* h1/h2 样式由模板定义，这里只保留基础样式 */
+.preview-content h1 {
+  font-size: 1.9em;
+}
+
+.preview-content h2 {
+  font-size: 1.5em;
+}
+
+.preview-content h3 {
+  font-size: 1.2em;
+}
+
+.preview-content p {
+  margin-bottom: 16px;
+}
+
+.preview-content blockquote {
+  padding: 0.6em 1.2em;
+  color: #666;
+  border-left: 4px solid #1677ff;
+  margin: 0 0 16px 0;
+  background: #f8f9fa;
+  border-radius: 0 10px 10px 0;
+}
+
+.preview-content code {
+  padding: 0.25em 0.5em;
+  margin: 0;
+  font-size: 87%;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  font-family: 'SF Mono', Monaco, Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.preview-content pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 1.55;
+  background-color: #282c34;
+  color: #abb2bf;
+  border-radius: 12px;
+  margin: 0 0 16px 0;
+}
+
+.preview-content pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.preview-content ul,
+.preview-content ol {
+  padding-left: 2em;
+  margin-bottom: 16px;
+}
+
+.preview-content li {
+  margin-bottom: 0.4em;
+}
+
+.preview-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+.preview-content a {
+  color: #1677ff;
+  text-decoration: none;
+}
+
+.preview-content a:hover {
+  text-decoration: underline;
+}
+
+.preview-content table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.preview-content table th,
+.preview-content table td {
+  padding: 10px 14px;
+  border: 1px solid #e8e8e8;
+}
+
+.preview-content table th {
+  font-weight: 600;
+  background-color: #fafafa;
+}
+
+.preview-content table tr:nth-child(2n) {
+  background-color: #fafafa;
+}
+
+.preview-content hr {
+  height: 2px;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e8e8e8;
+  border: 0;
+  border-radius: 1px;
+}
+
+/* 工具栏按钮 */
+.toolbar .ant-btn {
+  color: #666;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.toolbar .ant-btn:hover {
+  color: #1677ff;
+  background-color: rgba(22, 119, 255, 0.1);
+}
+
+/* 模板选择器样式 */
+.template-selector .ant-card {
+  transition: all 0.25s ease;
+  border-radius: 12px;
+}
+
+.template-selector .ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 历史记录面板样式 */
+.history-panel .ant-list-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.history-panel .ant-list-item:hover {
+  background-color: #f5f5f5;
+  border-color: #e8e8e8;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8c8c8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Segmented 样式 */
+.ant-segmented {
+  padding: 3px !important;
+  border-radius: 10px !important;
+}
+
+.ant-segmented-item {
+  transition: all 0.25s ease !important;
+  border-radius: 8px !important;
+}
+
+.ant-segmented-item:hover {
+  color: #1677ff !important;
+}
+
+.ant-segmented-thumb {
+  transition: all 0.25s ease !important;
+  border-radius: 8px !important;
+}
+
+/* 按钮样式 */
+.ant-btn {
+  border-radius: 10px !important;
+  font-weight: 500;
+}
+
+.ant-btn-sm {
+  font-size: 14px;
+}
+
+.ant-btn-primary {
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.25);
+}
+
+.ant-btn-primary:hover {
+  box-shadow: 0 4px 12px rgba(22, 119, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Modal 样式 */
+.ant-modal-content {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+.ant-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-modal-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.ant-modal-body {
+  padding: 20px 24px;
+}
+
+/* Card 样式 */
+.ant-card {
+  border-radius: 12px;
+}
+
+/* Input 样式 */
+.ant-input {
+  border-radius: 10px !important;
+}
+
+/* Select 样式 */
+.ant-select-selector {
+  border-radius: 10px !important;
+}
+
+/* ColorPicker 样式 */
+.ant-color-picker-trigger {
+  border-radius: 10px !important;
+}
+
+/* Tag 样式 */
+.ant-tag {
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 13px;
+}
+
+/* Dropdown 样式 */
+.ant-dropdown-menu {
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.ant-dropdown-menu-item {
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .ant-layout-content {
+    flex-direction: column !important;
+  }
+
+  .ant-layout-content > div {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .ant-layout-header {
+    padding: 0 12px !important;
+  }
+
+  .ant-layout-content {
+    padding: 8px !important;
+    gap: 8px !important;
+  }
+
+  .ant-segmented {
+    font-size: 12px !important;
+  }
+
+  .preview-content {
+    font-size: 14px;
+  }
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ant-layout-content > div {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Focus 样式 */
+.ant-input:focus,
+.ant-input-focused {
+  border-color: #1677ff !important;
+  box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.1) !important;
+}
+
+/* 空状态样式 */
+.ant-empty-description {
+  font-size: 14px;
+}
