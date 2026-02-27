@@ -1,11 +1,14 @@
-import { forwardRef, useMemo } from 'react';
-import { marked } from 'marked';
+import { forwardRef, useMemo, useEffect, useRef } from 'react';
+import mermaid from 'mermaid';
 import type { Template } from '../types';
+import { parseEnhancedMarkdown, getEnhancedStyles } from '../utils/enhancedMarkdown';
 
-// 配置marked选项
-marked.setOptions({
-  breaks: true,
-  gfm: true,
+// 初始化 Mermaid
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'default',
+  securityLevel: 'loose',
+  fontFamily: 'trebuchet ms, verdana, arial, sans-serif',
 });
 
 interface PreviewProps {
@@ -19,10 +22,45 @@ interface PreviewProps {
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>(
   ({ markdown, template, fontSize = 15, backgroundColor = '#ffffff', margin = 24, fixedWidth }, ref) => {
-    // 使用 marked 解析 markdown
+    const mermaidRenderedRef = useRef(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // 使用增强的 Markdown 解析器
     const htmlContent = useMemo(() => {
-      return marked(markdown) as string;
+      mermaidRenderedRef.current = false; // 标记需要重新渲染 Mermaid
+      return parseEnhancedMarkdown(markdown);
     }, [markdown]);
+
+    // 渲染 Mermaid 图表
+    useEffect(() => {
+      if (mermaidRenderedRef.current || !containerRef.current) return;
+
+      const mermaidElements = containerRef.current.querySelectorAll('.mermaid-diagram pre.mermaid');
+      if (mermaidElements.length === 0) {
+        mermaidRenderedRef.current = true;
+        return;
+      }
+
+      mermaidRenderedRef.current = true;
+
+      mermaidElements.forEach(async (el, index) => {
+        const code = el.textContent || '';
+        try {
+          const id = `mermaid-${Date.now()}-${index}`;
+          const { svg } = await mermaid.render(id, code);
+          const wrapper = el.parentElement;
+          if (wrapper) {
+            wrapper.innerHTML = svg;
+          }
+        } catch (e) {
+          console.error('Mermaid render error:', e);
+          const wrapper = el.parentElement;
+          if (wrapper) {
+            wrapper.innerHTML = `<pre style="color: red; text-align: left;">Mermaid 语法错误:\n${code}</pre>`;
+          }
+        }
+      });
+    }, [htmlContent]);
 
     const styles = template.styles;
 
@@ -49,6 +87,12 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>(
         <div style={fixedWidth ? { width: fixedWidth, maxWidth: '100%' } : undefined}>
         <style>
           {`
+            /* 引入 KaTeX 样式 */
+            @import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
+
+            /* 增强功能样式 */
+            ${getEnhancedStyles()}
+
             .preview-content {
               font-size: ${fontSize}px !important;
               ${containerStyleWithoutBg}
@@ -62,9 +106,9 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>(
             .preview-content h6 { background: transparent !important; font-size: 0.85em; font-weight: bold; margin: 8px 0 4px; }
             .preview-content p { background: transparent !important; ${styles.p || ''} }
             .preview-content blockquote { ${styles.blockquote || ''} }
-            .preview-content code { ${styles.code || ''} }
-            .preview-content pre { ${styles.pre || ''} }
-            .preview-content pre code {
+            .preview-content code:not([class*="language-"]) { ${styles.code || ''} }
+            .preview-content pre:not(.code-block):not(.mermaid) { ${styles.pre || ''} }
+            .preview-content pre code:not([class*="language-"]) {
               background: transparent !important;
               padding: 0;
               color: inherit;
@@ -81,6 +125,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>(
           `}
         </style>
         <div
+          ref={containerRef}
           className="preview-content"
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
