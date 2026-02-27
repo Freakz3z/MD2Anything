@@ -1,6 +1,7 @@
 {
   "name": "md2everything",
   "assets": "dist",
+  "function": "edge-function.js",
   "build": {
     "command": "npm run build"
   }
